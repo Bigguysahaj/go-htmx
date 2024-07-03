@@ -3,11 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script  
+      src="https://unpkg.com/htmx.org@2.0.0"
+      integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw" 
+      crossorigin="anonymous"
+    >
+    </script>
     <title>GO HTMX SHENANIGANS</title>
 </head>
 <body>
     <h1>
         Let's GO (very meta lol)
     </h1>
+    <ul id="todo-list">
+        <!-- loop over Todos -->
+      {{range .Todos}} {{block "todo-list-element" .}}
+
+      <li>{{.Message}}</li>
+      {{end}} {{end}}
+    </ul>
+
+    <!-- HTMX comming in here -->
+    <!-- form does a post request as add-todo -->
+    <!-- and then sends the data to todo-list id ul -->
+    <!-- and hx-swap is for position on where to add -->
+    <form hx-swap="beforeend" hx-target="#todo-list" hx-post="/add-todo">
+      <label for="message">Message:</label>
+      <input type="text" id="message" name="message"/>
+      <button type="submit">Create</button>
+    </form>
 </body>
 </html>
